@@ -981,6 +981,11 @@ public class Simulation extends Observable implements Runnable {
     return null;
   }
 
+  /**
+   * Returns the internal graph representation of the network
+   *
+   * @return NodeGraph of the current simulation network
+   */
   public NodeGraph getNodeGraph() {
     if (this.nodeGraph == null) {
       this.nodeGraph = new NodeGraph(this);
