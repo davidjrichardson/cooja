@@ -39,6 +39,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
+import org.contikios.cooja.util.NodeGraph;
 import org.jdom.Element;
 
 import org.contikios.cooja.dialogs.CreateSimDialog;
@@ -60,7 +61,7 @@ public class Simulation extends Observable implements Runnable {
 
   private Vector<Mote> motes = new Vector<Mote>();
   private Vector<Mote> motesUninit = new Vector<Mote>();
-  
+
   private Vector<MoteType> moteTypes = new Vector<MoteType>();
 
   /* If true, run simulation at full speed */
@@ -95,6 +96,8 @@ public class Simulation extends Observable implements Runnable {
   private long maxMoteStartupDelay = 1000*MILLISECOND;
 
   private SafeRandom randomGenerator;
+
+  private NodeGraph nodeGraph;
 
   private boolean hasMillisecondObservers = false;
   private MillisecondObservable millisecondObservable = new MillisecondObservable();
@@ -399,6 +402,8 @@ public class Simulation extends Observable implements Runnable {
     return cooja;
   }
 
+  // TODO: Construct a graph of the simulation
+
   /**
    * @return Random seed
    */
@@ -544,17 +549,17 @@ public class Simulation extends Observable implements Runnable {
     return config;
   }
 
-  
+
   /* indicator to components setting up that they need to respect the fast setup mode */
   private boolean quick = false;
   public boolean isQuickSetup() {
       return quick;
   }
-  
+
   public void setQuickSetup(boolean q) {
       quick = q;
   }
-  
+
   /**
    * Sets the current simulation config depending on the given configuration.
    *
@@ -870,7 +875,7 @@ public class Simulation extends Observable implements Runnable {
       /* Add mote from simulation thread */
       invokeSimulationThread(addMote);
     }
-    
+
   }
 
   /**
@@ -903,7 +908,7 @@ public class Simulation extends Observable implements Runnable {
 
   /**
    * Returns uninitialised simulation mote with with given ID.
-   * 
+   *
    * @param id ID
    * @return Mote or null
    * @see Mote#getID()
@@ -974,6 +979,16 @@ public class Simulation extends Observable implements Runnable {
       }
     }
     return null;
+  }
+
+  public NodeGraph getNodeGraph() {
+    if (this.nodeGraph == null) {
+      this.nodeGraph = new NodeGraph(this);
+    } else {
+      this.nodeGraph.refreshMatrix(this);
+    }
+
+    return this.nodeGraph;
   }
 
   /**
