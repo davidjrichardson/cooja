@@ -989,8 +989,6 @@ public class Simulation extends Observable implements Runnable {
   public NodeGraph getNodeGraph() {
     if (this.nodeGraph == null) {
       this.nodeGraph = new NodeGraph(this);
-    } else {
-      this.nodeGraph.refreshMatrix(this);
     }
 
     return this.nodeGraph;
