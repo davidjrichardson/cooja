@@ -110,6 +110,10 @@ public class NodeGraph {
         return visited.size() == getActiveMotes().size();
     }
 
+    public List<Mote> get1HopNeighbours(Mote mote) {
+        return new ArrayList<>(getNeighbours(mote));
+    }
+
     private Set<Mote> getNeighbours(Mote mote) {
         HashSet<Mote> neighbours = new HashSet<>();
 
