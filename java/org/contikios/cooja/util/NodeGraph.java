@@ -110,11 +110,21 @@ public class NodeGraph {
         return visited.size() == getActiveMotes().size();
     }
 
-    public List<Mote> get1HopNeighbours(Mote mote) {
-        return new ArrayList<>(getNeighbours(mote));
+    public Set<Mote> get1HopNeighbours(Mote mote) {
+        HashSet<Mote> neighbours = new HashSet<>();
+
+        Map<Mote, Integer> row = this.matrix.get(mote);
+
+        for (Mote m : row.keySet()) {
+            if (row.get(m) != 0) {
+                neighbours.add(m);
+            }
+        }
+
+        return neighbours;
     }
 
-    private Set<Mote> getNeighbours(Mote mote) {
+    public Set<Mote> getNeighbours(Mote mote) {
         HashSet<Mote> neighbours = new HashSet<>();
 
         Map<Mote, Integer> row = this.matrix.get(mote);
